@@ -22,7 +22,6 @@ def create_project_structure(project_name):
 from flask import Flask
 from config.config import Config
 from app.extensions import db, migrate
-from app import routes
 
 def create_app():
     app = Flask(__name__)
@@ -30,7 +29,9 @@ def create_app():
 
     db.init_app(app)
     migrate.init_app(app, db)
-    app.register_blueprint(routes.bp)
+    with app.app_context():
+        from app import routes
+        app.register_blueprint(routes.bp)
 
     return app
         """,
@@ -180,13 +181,116 @@ flask_migrate
 #pymongo  # For MongoDB
         """,
         f"{project_name}/.gitignore": """
+# Virtual environment
 venv/
-__pycache__/
-*.pyc
-instance/
-.webassets-cache
 .env
-.venv
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Logs and databases
+*.log
+*.sqlite3
+*.db
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Translations
+*.mo
+*.pot
+
+# Documentation
+docs/_build/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Environments
+.env/
+.venv/
+env/
+ENV/
+venv.bak/
+ENV.bak/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# dotenv
+.env
+
+# virtualenv
+.venv/
+env/
+ENV/
+venv.bak/
+ENV.bak/
+
+# Spyder project settings
+.spyderproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Flask migrations
+migrations/versions/*
         """,
         f"{project_name}/README.md": f"# {project_name.capitalize()}\n\n## Description\n\nYour app is ready to be used\n",
         f"{project_name}/run.py": """
