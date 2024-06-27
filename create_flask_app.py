@@ -290,7 +290,7 @@ dmypy.json
 .pyre/
 
 # Flask migrations
-migrations/versions/*
+migrations/*
         """,
         f"{project_name}/README.md": f"# {project_name.capitalize()}\n\n## Description\n\nYour app is ready to be used\n",
         f"{project_name}/run.py": """
